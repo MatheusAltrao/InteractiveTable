@@ -1,113 +1,246 @@
-import Image from 'next/image'
+"use client";
+
+import { DotsThree } from "@phosphor-icons/react";
+import { CaretLeft } from "@phosphor-icons/react/dist/ssr/CaretLeft";
+import { CaretRight } from "@phosphor-icons/react/dist/ssr/CaretRight";
+import { MagnifyingGlass } from "@phosphor-icons/react/dist/ssr/MagnifyingGlass";
+import { WarningCircle } from "@phosphor-icons/react/dist/ssr/WarningCircle";
+import { X } from "@phosphor-icons/react/dist/ssr/X";
+import { useState } from "react";
+export type ListObject = {
+  id: number;
+  name: string;
+  color: string;
+  category: string;
+  price: string;
+  status: boolean;
+  date: string;
+};
 
 export default function Home() {
+  const [products, setProducts] = useState([
+    {
+      id: 1,
+      name: "Product 1",
+      color: "Red",
+      category: "Electronics",
+      price: "$99.99",
+      status: "disable",
+    },
+    {
+      id: 2,
+      name: "Product 2",
+      color: "Blue",
+      category: "Clothing",
+      price: "$49.99",
+      status: "disable",
+    },
+    {
+      id: 3,
+      name: "Product 3",
+      color: "Green",
+      category: "Home Decor",
+      price: "$29.99",
+      action: "View Details",
+      status: "active",
+    },
+    {
+      id: 4,
+      name: "Product 4",
+      color: "Black",
+      category: "Furniture",
+      price: "$199.99",
+      action: "Add to Wishlist",
+      status: "active",
+    },
+    {
+      id: 5,
+      name: "Product 5",
+      color: "Yellow",
+      category: "Beauty",
+      price: "$14.99",
+      status: "disable",
+    },
+    {
+      id: 6,
+      name: "Product 6",
+      color: "White",
+      category: "Sports",
+      price: "$79.99",
+      status: "active",
+    },
+    {
+      id: 7,
+      name: "Product 7",
+      color: "Orange",
+      category: "Toys",
+      price: "$19.99",
+      status: "disable",
+    },
+    {
+      id: 8,
+      name: "Product 8",
+      color: "Purple",
+      category: "Books",
+      price: "$9.99",
+      status: "disable",
+    },
+    {
+      id: 9,
+      name: "Product 9",
+      color: "Brown",
+      category: "Appliances",
+      price: "$299.99",
+      status: "disable",
+    },
+    {
+      id: 10,
+      name: "Product 10",
+      color: "Pink",
+      category: "Jewelry",
+      price: "$69.99",
+      status: "disable",
+    },
+  ]);
+
+  const [searchValue, setSeachValue] = useState("");
+
+  const filtred = searchValue
+    ? products.filter(
+        (item) =>
+          item.name
+            .toLocaleLowerCase()
+            .includes(searchValue.toLocaleLowerCase()) ||
+          item.category
+            .toLocaleLowerCase()
+            .includes(searchValue.toLocaleLowerCase()) ||
+          item.color
+            .toLocaleLowerCase()
+            .includes(searchValue.toLocaleLowerCase()) ||
+          item.price
+            .toLocaleLowerCase()
+            .includes(searchValue.toLocaleLowerCase()) ||
+          item.status
+            .toLocaleLowerCase()
+            .includes(searchValue.toLocaleLowerCase())
+      )
+    : products;
+
   return (
-    <main className="flex min-h-screen flex-col items-center justify-between p-24">
-      <div className="z-10 max-w-5xl w-full items-center justify-between font-mono text-sm lg:flex">
-        <p className="fixed left-0 top-0 flex w-full justify-center border-b border-gray-300 bg-gradient-to-b from-zinc-200 pb-6 pt-8 backdrop-blur-2xl dark:border-neutral-800 dark:bg-zinc-800/30 dark:from-inherit lg:static lg:w-auto  lg:rounded-xl lg:border lg:bg-gray-200 lg:p-4 lg:dark:bg-zinc-800/30">
-          Get started by editing&nbsp;
-          <code className="font-mono font-bold">src/app/page.tsx</code>
-        </p>
-        <div className="fixed bottom-0 left-0 flex h-48 w-full items-end justify-center bg-gradient-to-t from-white via-white dark:from-black dark:via-black lg:static lg:h-auto lg:w-auto lg:bg-none">
-          <a
-            className="pointer-events-none flex place-items-center gap-2 p-8 lg:pointer-events-auto lg:p-0"
-            href="https://vercel.com?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            By{' '}
-            <Image
-              src="/vercel.svg"
-              alt="Vercel Logo"
-              className="dark:invert"
-              width={100}
-              height={24}
-              priority
-            />
-          </a>
+    <div className="bg-zinc-950 h-screen w-screen flex items-center justify-center flex-col gap-8">
+      <div>
+        <div className="relative w-[300px]">
+          <MagnifyingGlass
+            className="text-zinc-400 absolute top-3 left-2"
+            size={20}
+          />
+          <input
+            value={searchValue}
+            onChange={(e) => setSeachValue(e.target.value)}
+            type="text"
+            className="h-10 rounded bg-zinc-800 mb-2 w-full  pl-8 text-zinc-200"
+            placeholder="Search for any item in the table"
+          />
+          {searchValue.length > 0 && (
+            <button onClick={() => setSeachValue("")}>
+              <X className="text-zinc-200 absolute top-3 right-2" size={18} />
+            </button>
+          )}
+        </div>
+
+        <div className="relative overflow-x-auto flex items-center justify-center rounded flex-col  mx-auto">
+          <table className=" h-[680px] w-[820px] ">
+            <thead className="text-xs text-zinc-300 uppercase bg-zinc-800  ">
+              <tr>
+                <th className="p-4">
+                  <div className="flex items-center">
+                    <input type="checkbox" className="checkbox" />
+                    <label className="sr-only">checkbox</label>
+                  </div>
+                </th>
+                <th className="px-6 py-3">Product name</th>
+                <th className="px-6 py-3">Color</th>
+                <th className="px-6 py-3">Category</th>
+                <th className="px-6 py-3">Price</th>
+                <th className="px-6 py-3">Status</th>
+                <th className="px-6 py-3">Action</th>
+              </tr>
+            </thead>
+
+            <tbody>
+              {filtred.map((item) => (
+                <tr
+                  key={item.id}
+                  className="bg-zinc-900  text-zinc-300 border-zinc-800 border-b hover:bg-zinc-800 transition-colors ">
+                  <td className="w-4 p-4">
+                    <div className="flex items-center">
+                      <input
+                        type="checkbox"
+                        className="w-4 h-4 text-blue-600 bg-zinc-100 border-zinc-300 rounded focus:ring-blue-500"
+                      />
+                      <label className="sr-only">checkbox</label>
+                    </div>
+                  </td>
+                  <th
+                    scope="row"
+                    className="px-6 py-4 font-medium  whitespace-nowrap ">
+                    {item.name}
+                  </th>
+                  <td className="px-6 py-4">{item.color}</td>
+                  <td className="px-6 py-4">{item.category}</td>
+                  <td className="px-6 py-4">{item.price}</td>
+                  <td className="px-6 py-4">
+                    {item.status == "active" ? (
+                      <p className="px-2 py-0.5 bg-green-900 text-center rounded">
+                        Activated
+                      </p>
+                    ) : (
+                      <p className="px-2  py-0.5  bg-red-900 text-center rounded">
+                        Disabled
+                      </p>
+                    )}
+                  </td>
+                  <td className="px-6 py-4">
+                    <DotsThree size={22} />
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+
+          {products.length > 0 && filtred.length == 0 && (
+            <div className="flex items-center justify-center absolute top-16 gap-2">
+              <WarningCircle className="text-red-500 " size={22} />
+              <p className="text-zinc-200 text-lg text-center ">
+                check if you typed it correctly
+              </p>
+            </div>
+          )}
         </div>
       </div>
 
-      <div className="relative flex place-items-center before:absolute before:h-[300px] before:w-[480px] before:-translate-x-1/2 before:rounded-full before:bg-gradient-radial before:from-white before:to-transparent before:blur-2xl before:content-[''] after:absolute after:-z-20 after:h-[180px] after:w-[240px] after:translate-x-1/3 after:bg-gradient-conic after:from-sky-200 after:via-blue-200 after:blur-2xl after:content-[''] before:dark:bg-gradient-to-br before:dark:from-transparent before:dark:to-blue-700 before:dark:opacity-10 after:dark:from-sky-900 after:dark:via-[#0141ff] after:dark:opacity-40 before:lg:h-[360px] z-[-1]">
-        <Image
-          className="relative dark:drop-shadow-[0_0_0.3rem_#ffffff70] dark:invert"
-          src="/next.svg"
-          alt="Next.js Logo"
-          width={180}
-          height={37}
-          priority
-        />
+      <div className="flex items-center justify-center flex-col gap-1">
+        <div className="flex items-center justify-center gap-2 text-zinc-400  ">
+          <button className="hover:text-zinc-50 transition-colors">
+            <CaretLeft size={22} />
+          </button>
+          <button className="hover:text-zinc-50 transition-colors">
+            <CaretRight size={22} />
+          </button>
+        </div>
+
+        <div className="flex items-center justify-center gap-2 text-zinc-400 text-sm ">
+          <div>
+            <p>1</p>
+          </div>
+          <div>
+            <p>de</p>
+          </div>
+          <div>
+            <p>1</p>
+          </div>
+        </div>
       </div>
-
-      <div className="mb-32 grid text-center lg:max-w-5xl lg:w-full lg:mb-0 lg:grid-cols-4 lg:text-left">
-        <a
-          href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2 className={`mb-3 text-2xl font-semibold`}>
-            Docs{' '}
-            <span className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none">
-              -&gt;
-            </span>
-          </h2>
-          <p className={`m-0 max-w-[30ch] text-sm opacity-50`}>
-            Find in-depth information about Next.js features and API.
-          </p>
-        </a>
-
-        <a
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2 className={`mb-3 text-2xl font-semibold`}>
-            Learn{' '}
-            <span className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none">
-              -&gt;
-            </span>
-          </h2>
-          <p className={`m-0 max-w-[30ch] text-sm opacity-50`}>
-            Learn about Next.js in an interactive course with&nbsp;quizzes!
-          </p>
-        </a>
-
-        <a
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2 className={`mb-3 text-2xl font-semibold`}>
-            Templates{' '}
-            <span className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none">
-              -&gt;
-            </span>
-          </h2>
-          <p className={`m-0 max-w-[30ch] text-sm opacity-50`}>
-            Explore the Next.js 13 playground.
-          </p>
-        </a>
-
-        <a
-          href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2 className={`mb-3 text-2xl font-semibold`}>
-            Deploy{' '}
-            <span className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none">
-              -&gt;
-            </span>
-          </h2>
-          <p className={`m-0 max-w-[30ch] text-sm opacity-50`}>
-            Instantly deploy your Next.js site to a shareable URL with Vercel.
-          </p>
-        </a>
-      </div>
-    </main>
-  )
+    </div>
+  );
 }

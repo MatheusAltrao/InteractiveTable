@@ -319,75 +319,77 @@ export default function Home() {
               </thead>
 
               <tbody>
-                {filtred.map((item) => (
-                  <tr
-                    key={item.id}
-                    className="bg-zinc-900 h-10 text-left text-zinc-300 border-zinc-800 border-b hover:bg-zinc-950 transition-colors ">
-                    <th className=" flex items-center justify-center mt-3">
-                      {item.status == "active" && (
-                        <input
-                          checked={item.checked}
-                          onChange={(event) =>
-                            handleActiveCheckedProduct(event, item.id)
-                          }
-                          type="checkbox"
-                          className={`w-4 h-4 text-blue-600 ${
-                            isSending || item.status !== "active"
-                              ? "block"
-                              : "hidden"
-                          } bg-zinc-100 border-zinc-300 rounded focus:ring-blue-500 `}
-                        />
-                      )}
-                    </th>
-                    <th className="px-4">{item.name}</th>
-                    <th className="px-4">{item.category}</th>
-                    <th className="px-4">{item.price}</th>
-                    <th className="px-4">
-                      {format(new Date(item.date), "dd/MM/yyyy")}
-                    </th>
-                    <th className="text-center flex items-center justify-center h-full">
-                      {item.status == "active" && (
-                        <p className=" py-0.5 w-[80px] bg-green-500 text-green-950 font-semibold text-center rounded">
-                          Active
-                        </p>
-                      )}
-
-                      {item.status == "disable" && (
-                        <p className="  py-0.5  w-[80px] bg-red-500 text-red-950 font-semibold text-center rounded">
-                          Disable
-                        </p>
-                      )}
-
-                      {item.status == "sent" && (
-                        <p className="  py-0.5 w-[80px]  bg-blue-500 text-blue-950 font-semibold text-center rounded">
-                          Sent
-                        </p>
-                      )}
-                    </th>
-                    <th>
-                      <DropdownMenu.Root>
-                        <DropdownMenu.Trigger disabled={isSending} asChild>
-                          <DotsThree
-                            className={`hover:text-zinc-50  flex items-center justify-center w-full transition-colors ${
-                              isSending
-                                ? "cursor-not-allowed opacity-40"
-                                : "cursor-pointer"
-                            }`}
-                            size={22}
+                {filtred.map(
+                  ({ id, name, category, price, status, date, checked }) => (
+                    <tr
+                      key={id}
+                      className="bg-zinc-900 h-10 text-left text-zinc-300 border-zinc-800 border-b hover:bg-zinc-950 transition-colors ">
+                      <th className=" flex items-center justify-center mt-3">
+                        {status == "active" && (
+                          <input
+                            checked={checked}
+                            onChange={(event) =>
+                              handleActiveCheckedProduct(event, id)
+                            }
+                            type="checkbox"
+                            className={`w-4 h-4 text-blue-600 ${
+                              isSending || status !== "active"
+                                ? "block"
+                                : "hidden"
+                            } bg-zinc-100 border-zinc-300 rounded focus:ring-blue-500 `}
                           />
-                        </DropdownMenu.Trigger>
-                        <MenuItem
-                          status={item.status}
-                          id={item.id}
-                          activeProduct={handleActiveProduct}
-                          disableProduct={handleDisableProduct}
-                          setIsSending={setIsSending}
-                          handleDeleteProductSent={handleDeleteProductSent}
-                        />
-                      </DropdownMenu.Root>
-                    </th>
-                  </tr>
-                ))}
+                        )}
+                      </th>
+                      <th className="px-4">{name}</th>
+                      <th className="px-4">{category}</th>
+                      <th className="px-4">{price}</th>
+                      <th className="px-4">
+                        {format(new Date(date), "dd/MM/yyyy")}
+                      </th>
+                      <th className="text-center flex items-center justify-center h-full">
+                        {status == "active" && (
+                          <p className=" py-0.5 w-[80px] bg-green-500 text-green-950 font-semibold text-center rounded">
+                            Active
+                          </p>
+                        )}
+
+                        {status == "disable" && (
+                          <p className="  py-0.5  w-[80px] bg-red-500 text-red-950 font-semibold text-center rounded">
+                            Disable
+                          </p>
+                        )}
+
+                        {status == "sent" && (
+                          <p className="  py-0.5 w-[80px]  bg-blue-500 text-blue-950 font-semibold text-center rounded">
+                            Sent
+                          </p>
+                        )}
+                      </th>
+                      <th>
+                        <DropdownMenu.Root>
+                          <DropdownMenu.Trigger disabled={isSending} asChild>
+                            <DotsThree
+                              className={`hover:text-zinc-50  flex items-center justify-center w-full transition-colors ${
+                                isSending
+                                  ? "cursor-not-allowed opacity-40"
+                                  : "cursor-pointer"
+                              }`}
+                              size={22}
+                            />
+                          </DropdownMenu.Trigger>
+                          <MenuItem
+                            status={status}
+                            id={id}
+                            activeProduct={handleActiveProduct}
+                            disableProduct={handleDisableProduct}
+                            setIsSending={setIsSending}
+                            handleDeleteProductSent={handleDeleteProductSent}
+                          />
+                        </DropdownMenu.Root>
+                      </th>
+                    </tr>
+                  )
+                )}
               </tbody>
             </table>
           ) : (

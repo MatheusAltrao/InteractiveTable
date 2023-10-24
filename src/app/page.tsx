@@ -282,7 +282,7 @@ export default function Home() {
               <option value="pricedown">Price Down</option>
               <option value="status">Status</option>
               <option value="recent">Recent</option>
-              <option value="ancient">ancient</option>
+              <option value="ancient">Ancient</option>
             </select>
           </div>
 

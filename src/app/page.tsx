@@ -32,7 +32,7 @@ export default function Home() {
 
       category: "Clothing",
       price: "$49.99",
-      status: "sent",
+      status: "disable",
       checked: false,
       date: "2023-06-22",
     },
@@ -54,7 +54,7 @@ export default function Home() {
       category: "Furniture",
       price: "$199.99",
       action: "Add to Wishlist",
-      status: "sent",
+      status: "disable",
       checked: false,
       date: "2023-09-28",
     },
@@ -225,11 +225,12 @@ export default function Home() {
   console.log(filter);
 
   return (
-    <div className="bg-zinc-950 h-screen w-screen flex items-center pt-[150px] flex-col gap-8">
-      <div className="flex items-center flex-col justify-center">
-        <header className={`flex items-center  justify-between gap-8 w-full`}>
+    <div className="bg-zinc-950 min-h-screen w-screen flex items-center pt-[150px] flex-col p-4 gap-8">
+      <div className="flex items-center flex-col justify-center w-full lg:max-w-[1000px] mx-auto">
+        <header
+          className={`flex items-center justify-between gap-2 md:gap-8 w-full mb-4`}>
           <div
-            className={`flex items-center gap-2 transition-opacity ${
+            className={`flex items-center justify-center gap-2 transition-opacity ${
               isSending ? "opacity-100" : "opacity-0 pointer-events-none"
             }`}>
             {allCheckeds ? (
@@ -246,11 +247,13 @@ export default function Home() {
               </button>
             )}
 
-            <p className="text-zinc-300">{countSelectedProducts} checkeds</p>
+            <p className="text-zinc-300 text-xs md:text-base whitespace-nowrap">
+              {countSelectedProducts} checkeds
+            </p>
           </div>
 
-          <div className="flex items-start justify-between w-full mb-2  ">
-            <div className="relative w-[400px]">
+          <div className="flex items-start justify-center gap-4 w-full   ">
+            <div className="relative flex-1 hidden lg:block">
               <MagnifyingGlass
                 className="text-zinc-400 absolute top-3 left-2"
                 size={20}
@@ -276,7 +279,7 @@ export default function Home() {
               id="filter"
               defaultValue={filter}
               onChange={(e) => setFilter(e.target.value)}
-              className="bg-zinc-800 w-[150px] h-10  text-zinc-50 text-sm rounded border-transparent border focus:ring-blue-500 focus:border-blue-500 p-2.5">
+              className="bg-zinc-800 w-[130px] h-10  text-zinc-50 text-sm rounded border-transparent border focus:ring-blue-500 focus:border-blue-500 p-2.5">
               <option value="alphabetical">Alphabetical</option>
               <option value="priceUp">Price Up</option>
               <option value="pricedown">Price Down</option>
@@ -292,20 +295,18 @@ export default function Home() {
             }`}>
             <button
               onClick={handleTransferTrueCheckedList}
-              className="text-blue-500 font-medium px-3 py-1 border border-transparent   hover:border-blue-500 transition-colors rounded">
+              className="button-send">
               Send
             </button>
-            <button
-              onClick={handleCancelSend}
-              className="text-red-500 font-medium px-3 py-1 border border-transparent hover:border-red-500 transition-colors rounded">
+            <button onClick={handleCancelSend} className="button-cancel">
               Cancel
             </button>
           </div>
         </header>
 
-        <div className="overflow-hidden rounded">
-          {calculeteFilter.length > 0 ? (
-            <table className="  w-[920px] ">
+        {calculeteFilter.length > 0 ? (
+          <div className="overflow-x-auto w-full rounded">
+            <table className="w-full ">
               <thead className="text-xs text-zinc-300 text-left uppercase bg-zinc-800  ">
                 <tr>
                   <th className="p-4"></th>
@@ -332,7 +333,7 @@ export default function Home() {
                               handleActiveCheckedProduct(event, id)
                             }
                             type="checkbox"
-                            className={`w-4 h-4 text-blue-600 ${
+                            className={`w-4 h-4  accent-green-500 ${
                               isSending || status !== "active"
                                 ? "block"
                                 : "hidden"
@@ -340,7 +341,7 @@ export default function Home() {
                           />
                         )}
                       </th>
-                      <th className="px-4">{name}</th>
+                      <th className="px-4 whitespace-nowrap">{name}</th>
                       <th className="px-4">{category}</th>
                       <th className="px-4">{price}</th>
                       <th className="px-4">
@@ -392,36 +393,38 @@ export default function Home() {
                 )}
               </tbody>
             </table>
-          ) : (
-            <p className="text-zinc-200 text-lg text-center py-4">
-              There are no products
-            </p>
-          )}
-        </div>
+          </div>
+        ) : (
+          <p className="text-zinc-200 text-lg text-center py-4">
+            There are no products
+          </p>
+        )}
       </div>
 
-      <div className="flex items-center justify-center flex-col gap-1">
-        <div className="flex items-center justify-center gap-2 text-zinc-400  ">
-          <button className="hover:text-zinc-50 transition-colors">
-            <CaretLeft size={22} />
-          </button>
-          <button className="hover:text-zinc-50 transition-colors">
-            <CaretRight size={22} />
-          </button>
-        </div>
+      {filtred.length > 0 && (
+        <div className="flex items-center justify-center flex-col gap-1">
+          <div className="flex items-center justify-center gap-2 text-zinc-400  ">
+            <button className="hover:text-zinc-50 transition-colors">
+              <CaretLeft size={22} />
+            </button>
+            <button className="hover:text-zinc-50 transition-colors">
+              <CaretRight size={22} />
+            </button>
+          </div>
 
-        <div className="flex items-center justify-center gap-2 text-zinc-400 text-sm ">
-          <div>
-            <p>1</p>
-          </div>
-          <div>
-            <p>de</p>
-          </div>
-          <div>
-            <p>1</p>
+          <div className="flex items-center justify-center gap-2 text-zinc-400 text-sm ">
+            <div>
+              <p>1</p>
+            </div>
+            <div>
+              <p>de</p>
+            </div>
+            <div>
+              <p>1</p>
+            </div>
           </div>
         </div>
-      </div>
+      )}
     </div>
   );
 }
